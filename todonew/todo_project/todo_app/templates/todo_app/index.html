@@ -1,0 +1,40 @@
+<!-- todo_app/templates/todo_app/index.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo list</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'todo_app/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'todo_app/styles.css' %}">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">To-Do List</h2>
+                <form method="post" action="{% url 'add_task' %}">
+                    {% csrf_token %}
+                    {{ form }}
+                    <button type="submit" class="btn btn-primary mt-2">Add</button>
+                </form>
+                <ul class="list-group mt-3">
+                    {% for task in tasks %}
+                        <li class="list-group-item {% if task.completed %}list-group-item-success{% endif %}">
+                            {{ task.title }}
+                            <span class="float-right">
+                                <a href="{% url 'complete_task' task.id %}" class="btn btn-success btn-sm">&#10003;</a>
+                                <a href="{% url 'delete_task' task.id %}" class="btn btn-danger btn-sm">&times;</a>
+                            </span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
